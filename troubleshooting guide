@@ -1,0 +1,63 @@
+DEPLOYMENT TRAINGING:
+
+
+WEB SERVERS- APACHE
+
+
+Apache
+* Apache HTTP project - https://httpd.apache.org/
+* Getting Started - https://httpd.apache.org/docs/2.4/getting-started.html
+* Tutorial: Set up LAMP stack - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-LAMP.html
+* SSL/TLS - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/SSL-on-an-instance.html
+
+
+Nginx
+* Nginx Wiki - https://www.nginx.com/resources/glossary/nginx/
+* Example Configurations (Familiarize with reading configuration) - https://www.nginx.com/resources/wiki/start/#pre-canned-configurations
+* Setting Up Nginx AWS - https://www.nginx.com/blog/setting-up-nginx/
+* Configuring HTTPS servers - http://nginx.org/en/docs/http/configuring_https_servers.html
+
+
+Troubleshooting
+*  Know general steps to troubleshoot a web-server
+* https://likegeeks.com/linux-web-server/
+* https://linode.com/docs/troubleshooting/troubleshooting-common-apache-issues/
+* https://blog.serverdensity.com/troubleshoot-nginx/
+
+
+
+EKS: 
+Required: 
+* AWS Documentation: https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html
+* Kubernetes documentation: https://kubernetes.io/
+* LinuxAcademy: https://linuxacademy.com/cp/modules/view/id/371 (Free, signup using @amazon.com)
+* LinuxAcademy: https://linuxacademy.com/cp/modules/view/id/293
+* EKS AMI Github: https://github.com/awslabs/amazon-eks-ami
+* Amazon VPC CNI Github: https://github.com/aws/amazon-vpc-cni-k8s 
+Labs: 
+* Kubernetes tutorials: https://kubernetes.io/docs/tutorials/
+* EKS Workshop: https://eksworkshop.com/ 
+Good to know: 
+* AWS EKS blog posts: https://aws.amazon.com/blogs/compute/category/compute/amazon-elastic-container-service-for-kubernetes/
+
+
+
+COPYING DATA ACROSS PODS AND ENV:
+
+
+* To copy file from pod to your local system:
+>> kubectl cp -n <namespace>/<POD_NAME>:<source_path>/<FILE_NAME> /<destination_path>/<FILE_NAME>
+
+
+* Copy file from local machine to pod:
+>> kubectl cp <source_file_path> <pod_name>:/<dest_file_path>
+
+
+* Copy file from one pod to another pod:
+>> kubectl cp <pod-1>:<source_file_path>/my-file pod-2:<dest_path>/my-file
+
+
+* For more options on sharing files, please execute command:
+>> kubectl cp —help
+
+
