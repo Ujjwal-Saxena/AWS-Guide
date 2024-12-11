@@ -1,0 +1,37 @@
+DEVOPS-PROF learning
+
+> The use of AWS SAM for serverless applications is a published best practice. SAM templates are an extension of AWS CloudFormation templates. Consequently, non-serverless infrastructure also can be launched in a serverless template.
+For more information about SAM templates, see What is the AWS Serverless Application Model (AWS SAM)?
+For more information about the use of SAM templates, see Building well-architected serverless applications: Approaching application lifecycle management – part 1.
+============
+
+> This solution keeps the read replica in sync asynchronously with the primary database. With CloudFormation, the DevOps engineer can dynamically create infrastructure to support the application. Because resources are not fully created in two Regions, this solution is the most cost-effective option.
+For more information about RDS read replicas, see Working with read replicas.
+For more information about how to create RDS cross-Region read replicas, see Creating a read replica in a different AWS Region.
+============
+
+Because the Lambda function takes snapshots and copies data to the DR Region only once an hour, this solution does not meet the RPO of less than 10 minutes. This solution also does not automate the provisioning of all the infrastructure to support the application. The process to provision the infrastructure manually likely would take more than 2 hours. Therefore, this solution does not meet the RTO of less than 2 hours.
+============
+
+Lifecycle hooks provide feedback to the Auto Scaling group about the success or failure of the custom script. The Auto Scaling group uses that information to either start sending traffic to the new EC2 instance or to terminate the EC2 instance.
+For more information about lifecycle hooks, see Amazon EC2 Auto Scaling lifecycle hooks.
+============
+
+The Elastic Beanstalk CLI applies some recommended values that are set directly at the API level. In this particular case, one of those values is the instance type. When the values are applied in different locations (for example, recommended values, .ebextensions), the order of precedence is the following:
+1. Settings applied directly to the environment (API)
+2. Saved configurations
+3. Configuration files (.ebextensions)
+4. Default values
+For more information about Elastic Beanstalk configuration precedence, see Precedence.
+For more information about Elastic Beanstalk recommended values, see Recommended values
+============
+
+This solution will resolve the issue in the most reliable manner because this solution proportionately scales the Auto Scaling group. To proportionately scale the Auto Scaling group, you must calculate a custom metric that reflects the acceptable backlog per instance. You calculate this metric by dividing the number of messages available for retrieval from the queue by the number of instances in the InService state.
+For more information about scaling based on Amazon SQS, see Scaling Based on Amazon SQS.
+
+============
+
+With AWS Config, you can assess, audit, and evaluate the configurations of your AWS resources. AWS Config continuously monitors and records your AWS resource configurations and gives you the ability to automate the evaluation of recorded configurations against desired configurations. The company in the scenario can create an AWS Config rule that looks for noncompliant EC2 instances that are using unapproved AMIs.
+AWS Config also includes remediation capability with AWS Config rules. This feature gives you the ability to associate and run remediation actions with AWS Config rules to address noncompliant resources. The company in the scenario can set up a remediation approach to terminate the EC2 instances that are noncompliant with the rule.
+For more information about AWS Config managed rules, see List of AWS Config Managed Rules.
+For more information about AWS Config remediation, see Use AWS Config Rules to Remediate Noncompliant Resources.
