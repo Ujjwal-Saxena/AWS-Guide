@@ -1,0 +1,54 @@
+Node Affinity takes precedence over Selector :
+
+> To begin with, I checked your deployment yaml file which was having selector and affinity. Please allow me to mention you that affinity take precedence above selector, that is the reason why it is taking only one condition.
+
+> To mitigate this issue and meet both the condition please configure "nodeselector" as well in the container as mentioned in below yaml file:-
+
+`````````
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: businessnext-vividwebapi
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: businessnext-vividwebapi
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: businessnext-vividwebapi
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/os
+                operator: In
+                values:
+                - linux
+            - matchExpressions:
+              - key: role
+                operator: In
+                values:
+                - webapp_mobile_webapi
+      containers:
+      - name: app
+        image: centos
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo $(date -u) >> /data/out.txt; sleep 5; done"]
+      nodeSelector:                  ## add this part in your deployment file
+        app: businessnext-vividwebapi
+`````````
+
+> I replicated the same use-case at my end and it is working as expected using above yaml file with nodeselector.
+
+I hope this information serves you well.
